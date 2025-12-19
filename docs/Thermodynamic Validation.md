@@ -1,1 +1,147 @@
 
+
+
+# Thermodynamic Validation of RBF-Interpolated Dataset
+
+## 1. Objective
+
+Radial Basis Function (RBF) interpolation ensures numerical smoothness but does **not inherently enforce thermodynamic laws**. Therefore, all interpolated data generated in this repository were subjected to **explicit thermodynamic validation** to confirm that the populated dataset:
+
+* Respects fundamental atmospheric distillation behavior
+* Lies within **physically meaningful operating envelopes**
+* Is consistent with **literature-reported ranges** and **industrial refinery practice**
+
+This validation ensures that the interpolated dataset is suitable for downstream applications such as machine learning, optimization, and anomaly detection, without propagating non-physical operating scenarios.
+
+---
+
+## 2. Validation Reference Sources
+
+Thermodynamic bounds were established using **two independent and complementary reference sources**:
+
+### 2.1 Literature-Based Ranges
+
+Ranges were extracted from:
+
+* Atmospheric distillation design textbooks
+* Peer-reviewed journal articles
+* University course material and refinery design notes
+
+These sources define **theoretical and design-level limits** for product yields, product properties, and column operating variables.
+
+### 2.2 Industrial Plant Operating Envelopes
+
+Practical operating limits were compiled from:
+
+* Published refinery case studies
+* Open industrial reports
+* Consolidated operating envelopes reported in literature
+
+These reflect **real-world constraints**, including control margins, non-idealities, and operational conservatism.
+
+Using both sources ensures that interpolated values are **thermodynamically valid and industrially realistic**, not merely simulation-feasible.
+
+---
+
+## 3. Validated Variable Set
+
+Thermodynamic validation was performed on all **12 interpolated variables**, representing operating conditions, product properties, and energy duties of the atmospheric distillation unit:
+
+* Naphtha yield (vol%)
+* Naphtha yield (kg/h)
+* Naphtha API gravity
+* Naphtha Reid Vapor Pressure (RVP)
+* Reflux ratio
+* Feed temperature (°C)
+* Feed flow rate (kg/h)
+* Feed flow rate (m³/h)
+* Steam injection rate (kg/h)
+* Condenser duty (GJ/h)
+* Overall column heat duty (GJ/h)
+* Associated column performance indicators
+
+Each interpolated data point corresponds to a **single, physically feasible operating scenario** in this 12-dimensional thermodynamic space.
+
+---
+
+## 4. Validation Methodology
+
+The validation was conducted **after interpolation**, not before. This is intentional and technically necessary.
+
+### Step 1: Range Extraction
+
+For each variable, the minimum and maximum values from the **RBF-interpolated dataset** were extracted.
+
+### Step 2: Range Comparison
+
+The interpolated ranges were compared against:
+
+* Literature-reported thermodynamic limits
+* Typical refinery plant operating ranges
+
+### Step 3: Physical Consistency Screening
+
+Interpolated points were checked to ensure:
+
+* No violation of known atmospheric distillation behavior
+* No unrealistic yield inflation or property discontinuities
+* Smooth and monotonic trends where thermodynamically expected
+
+Any data point violating physically meaningful bounds was flagged and excluded.
+
+This **post-interpolation validation** guarantees that nonlinear interactions introduced by multivariate interpolation do not result in thermodynamically inconsistent operating states.
+
+---
+
+## 5. Treatment of Energy Duties (Clarification)
+
+Observed differences between **RBF-interpolated condenser duty and overall heat duty** values and those reported in literature or plant data are **intentional and explainable**, not errors.
+
+Key reasons:
+
+* Duties were extracted directly from **steady-state ASPEN HYSYS simulations**
+* Values are reported on a **per-case, normalized basis** suitable for multivariate interpolation
+* Literature and plant data often include:
+
+  * Feed preheating and furnace firing
+  * Pump-around heat recovery
+  * Auxiliary exchanger networks
+  * Averaging over extended operating periods
+
+Additionally, real plant data reflect:
+
+* Fouling
+* Heat losses
+* Control margins
+* Partial-load operation
+
+These effects are not explicitly modeled in idealized steady-state simulations.
+
+**Conclusion:**
+Although absolute magnitudes may differ due to boundary definition and reporting conventions, the interpolated energy duties:
+
+* Exhibit correct directional trends
+* Remain within physically meaningful bounds
+* Are thermodynamically consistent under consistent energy accounting assumptions
+
+---
+
+## 6. Proof of Validation
+
+The complete thermodynamic validation comparison, including variable-wise literature ranges, plant ranges, and RBF-interpolated bounds, is provided in the following file:
+
+
+---
+
+## 7. Conclusion
+
+This thermodynamic validation confirms that the RBF-interpolated dataset:
+
+* Preserves fundamental distillation physics
+* Respects both theoretical and industrial operating limits
+* Avoids non-physical extrapolation artifacts
+* Is suitable for engineering-grade analysis and ML model development
+
+Without this validation, the dataset would be numerically smooth but **physically unreliable**.
+With it, the data is **thermodynamically defensible**.
+
