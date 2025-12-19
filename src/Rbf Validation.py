@@ -1,12 +1,3 @@
-# validate_rbf.py
-"""
-Validate RBF-populated data against ASPEN HYSYS ground truth.
-
-Outputs:
-- rbf_validation_point_errors.csv  : per-ASPEN-point error details (joined with nearest RBF point)
-- rbf_error_matrix.csv             : per-variable error metrics (MAE, RMSE, MAPE(%), R2, Bias)
-- rbf_error_matrix_per_blend.csv   : per-blend aggregated RMSE / MAE
-"""
 
 import numpy as np
 import pandas as pd
@@ -15,10 +6,8 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from scipy.spatial import cKDTree
 import os
 
-# ----------------------------
-# CONFIG
-# ----------------------------
-INPUT_CSV = "Yield_RBF_Populated_per_blend.csv"   # replace path if needed
+
+INPUT_CSV = "Yield_RBF_Populated_per_blend.csv"   
 OUTPUT_ERRORS_CSV = "rbf_validation_point_errors.csv"
 OUTPUT_ERROR_MATRIX = "rbf_error_matrix.csv"
 OUTPUT_ERROR_MATRIX_PER_BLEND = "rbf_error_matrix_per_blend.csv"
@@ -45,9 +34,6 @@ BLEND_COL = "Blend_ID"
 # For MAPE denominator guard (avoid divide-by-very-small)
 MAPE_EPS = 1e-8
 
-# ----------------------------
-# Utilities
-# ----------------------------
 def mape(y_true, y_pred):
     denom = np.where(np.abs(y_true) < MAPE_EPS, MAPE_EPS, np.abs(y_true))
     return np.mean(np.abs((y_true - y_pred) / denom)) * 100.0
@@ -55,21 +41,19 @@ def mape(y_true, y_pred):
 def rmse(y_true, y_pred):
     return np.sqrt(mean_squared_error(y_true, y_pred))
 
-# ----------------------------
-# Load data
-# ----------------------------
+
 if not os.path.exists(INPUT_CSV):
     raise FileNotFoundError(f"Input file not found: {INPUT_CSV}")
 
 df = pd.read_csv(INPUT_CSV)
 
-# Basic checks
+
 missing = [c for c in CONTINUOUS_VARS if c not in df.columns]
 if missing:
     raise ValueError(f"Missing expected columns in input CSV: {missing}")
 
 if SOURCE_COL not in df.columns:
-    # If Source not present, assume all rows are ASPEN (no interpolated) — still proceed but warn
+
     df[SOURCE_COL] = "UNKNOWN"
     print("Warning: no 'Source' column found. All rows marked 'UNKNOWN'")
 
@@ -85,10 +69,6 @@ if rbf_df.shape[0] == 0:
 
 print(f"Total rows: {len(df):,}, ASPEN rows: {len(asp_df):,}, RBF_interpolated rows: {len(rbf_df):,}")
 
-# ----------------------------
-# Scaling
-# ----------------------------
-# Fit scaler on ASPEN (ground-truth) points only (so distances reflect the original operating region)
 scaler = StandardScaler()
 scaler.fit(asp_df[CONTINUOUS_VARS].values)   # fit using ASPEN rows
 
