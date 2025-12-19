@@ -129,7 +129,7 @@ Although absolute magnitudes may differ due to boundary definition and reporting
 ## 6. Proof of Validation
 
 The complete thermodynamic validation comparison, including variable-wise literature ranges, plant ranges, and RBF-interpolated bounds, is provided in the following file:
-
+      Reference file: Thermodynamic Validation.xlsx
 
 ---
 
