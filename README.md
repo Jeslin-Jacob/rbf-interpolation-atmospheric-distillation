@@ -131,10 +131,4 @@ Commercial use requires explicit permission from the author.
 
 ---
 
-If you want, next I can:
 
-* **Rewrite this README to sound more “industry-consulting” instead of academic**
-* **Split the validation into a separate `VALIDATION.md`**
-* **Tear apart your repo structure and make it recruiter-proof**
-
-Say the word.
